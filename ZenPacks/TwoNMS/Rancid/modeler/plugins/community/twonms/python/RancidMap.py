@@ -34,7 +34,7 @@ class RancidMap(PythonPlugin):
     relname = "rancidrevs"
     modname = "ZenPacks.TwoNMS.Rancid.RancidRevision"
     deviceProperties = PythonPlugin.deviceProperties + (
-        'zRancidIgnore', 'zRancidGroup', 'zRancidViewerPath')
+        'zRancidIgnore', 'zRancidGroup', 'zRancidViewerPath', 'zRancidDeviceType')
 
 
     def condition(self, device, log):
@@ -71,8 +71,14 @@ class RancidMap(PythonPlugin):
                 om.id = self.prepId(logId)
                 om.rRevisionId = om.id
                 om.rRevisionDate = str(logDate)
+                ## substitute %id% %group% %device% %type%
                 if device.zRancidViewerPath:
-                    om.rRancidViewerLink = "%s%s/%s" % (device.zRancidViewerPath, device.zRancidGroup, device.id.lower())
+                    om.rRancidViewerLink = device.zRancidViewerPath
+                    if device.id: om.rRancidViewerLink = re.sub('\%device\%', device.id.lower(), om.rRancidViewerLink)
+                    om.rRancidViewerLink = re.sub('\%id\%', om.id, om.rRancidViewerLink)
+                    if device.zRancidGroup: om.rRancidViewerLink = re.sub('\%group\%', device.zRancidGroup, om.rRancidViewerLink)
+                    if device.zRancidDeviceType: om.rRancidViewerLink = re.sub('\%type\%', device.zRancidDeviceType, om.rRancidViewerLink)
+                    #om.rRancidViewerLink = "%s%s/%s" % (device.zRancidViewerPath, device.zRancidGroup, device.id.lower())
                 rm.append(om)
         except:
             pass
