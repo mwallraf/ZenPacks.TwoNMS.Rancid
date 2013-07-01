@@ -57,7 +57,7 @@ class RancidRevision(OSComponent):
         self.rRevisionCatPath = "unknown"
         if self.rRevisionCatPath:
             device = self.device()
-            cmd = "%s cat %s %s %s" % (self.command, self.rRevisionId, device.zRancidGroup, device.id)
+            cmd = "%s cat %s %s %s" % (self.command, self.rRevisionId, device.zRancidGroup, device.id.lower())
             return commands.getoutput(cmd)
         else:
             return "No config found"
