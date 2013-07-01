@@ -1,23 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <configure xmlns="http://namespaces.zope.org/browser">
 
-    <!-- A resource directory contains static web content.
+
+    <!-- A resource directory contains static web content.  -->
     <resourceDirectory
-        name="example"
+        name="twonmsrancid"
         directory="resources"
         />
-    -->
 
-    <!-- Register custom JavaScript for ExampleDevices.
+    <!-- Register custom JavaScript for RancidRevision. -->
     <viewlet
-        name="js-exampledevice"
-        paths="/++resource++example/js/ExampleDevice.js"
-        weight="10"
-        for="..ExampleDevice.ExampleDevice"
+        name="js-rancid"
+        paths="/++resource++twonmsrancid/js/RancidRevision.js"
+        weight="15"
+        for="Products.ZenModel.Device.Device"
         manager="Products.ZenUI3.browser.interfaces.IJavaScriptSrcManager"
         class="Products.ZenUI3.browser.javascript.JavaScriptSrcBundleViewlet"
         permission="zope2.Public"
         />
-    -->
+
+    <viewlet
+        name="js-rancid_config_panel"
+        paths="/++resource++twonmsrancid/js/rancid_config_panel.js"
+        weight="9"
+        for="Products.ZenModel.Device.Device"
+        manager="Products.ZenUI3.browser.interfaces.IHeadExtraManager"
+        class="Products.ZenUI3.browser.javascript.JavaScriptSrcBundleViewlet"
+        permission="zope2.Public"
+        />
+
+<!--
+     permission="zenoss.ManageDevice" 
+    <page
+        name="rancidShowConfig"
+        for="*"
+        class="..command.MyPredefinedCommandView"
+        permission="zope2.Public"
+        />
+-->
+
+<page
+    template="resources/skins/rancid_view_config.pt"
+    name="rancid_view_config_template"
+    permission="zenoss.ManageDevice"
+	for="ZenPacks.TwoNMS.Rancid.RancidRevision.RancidRevision"
+    />
+
 
 </configure>

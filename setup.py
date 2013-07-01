@@ -4,7 +4,7 @@
 # NB: PACKAGES is deprecated
 NAME = "ZenPacks.TwoNMS.Rancid"
 VERSION = "1.0.0"
-AUTHOR = "Maarten Wallraf - 2NMS"
+AUTHOR = "2NMS - Maarten Wallraf"
 LICENSE = "GPLv3"
 NAMESPACE_PACKAGES = ['ZenPacks', 'ZenPacks.TwoNMS']
 PACKAGES = ['ZenPacks', 'ZenPacks.TwoNMS', 'ZenPacks.TwoNMS.Rancid']

@@ -1,0 +1,9 @@
+<tal:block metal:use-macro="context/templates/macros/page2">
+<tal:block metal:fill-slot="contentPane">
+
+<pre class="brush:javascript">
+<p tal:content="here/rancidShowConfig">Show Rancid Config</p>
+</pre>
+
+</tal:block>
+</tal:block>
