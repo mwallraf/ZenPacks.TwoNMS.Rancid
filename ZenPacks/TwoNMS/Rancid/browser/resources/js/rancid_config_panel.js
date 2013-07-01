@@ -10,9 +10,9 @@ Zenoss.nav.appendTo('Component', [{
                 cardid = 'rancid_revision_config_panel',
                 revs = {
                     id: cardid,
-                    xtype: 'basedetailform',
+                    //xtype: 'basedetailform',
                     xtype: 'backcompat',
-                    viewName: 'rancid_view_config',
+                    viewName: 'rancid_view_config_template',
                     text: _t('rancid_revision_config_panel'),
                 };
 
