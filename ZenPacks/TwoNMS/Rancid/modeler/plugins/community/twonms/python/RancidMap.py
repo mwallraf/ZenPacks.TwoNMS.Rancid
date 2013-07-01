@@ -45,7 +45,7 @@ class RancidMap(PythonPlugin):
 
     def collect(self, device, log):
         log.debug("Collect (self, device) = %s, %s", self, device)
-        return getProcessOutput(self.command, args=("log", device.zRancidGroup, device.id))
+        return getProcessOutput(self.command, args=("log", device.zRancidGroup, device.id.lower()))
 
 
     # example output of "svnlook history"
