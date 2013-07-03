@@ -4,3 +4,4 @@
 - add zenrancid daemon statistics
 - add viewVC page
 - when ZenPack installation fails then there is a problem with zProperties, they need to be commented out in the code, ZenPack uninstalled and then zProperties enabled again. Why ?
+- add zProperty for telnet/ssh access (can be controlled now manually via custom clogin in /etc folder)
