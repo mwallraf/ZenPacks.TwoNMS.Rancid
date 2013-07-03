@@ -3,3 +3,4 @@
 - zenrancid status stays on "not running" in the daemons page although the daemon is started
 - add zenrancid daemon statistics
 - add viewVC page
+- when ZenPack installation fails then there is a problem with zProperties, they need to be commented out in the code, ZenPack uninstalled and then zProperties enabled again. Why ?
