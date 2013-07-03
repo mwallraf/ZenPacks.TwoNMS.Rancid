@@ -10,19 +10,16 @@
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <title>ZenPacks.TwoNMS.Rancid by 2NMS</title>
+    <title>Zenpacks.twonms.rancid by mwallraf</title>
   </head>
 
   <body>
-
-
-<div id="container">
+    <div id="container">
       <div class="inner">
 
         <header>
-          <h1>ZenPacks.TwoNMS.Rancid</h1>
-          <h2>ZenPack to integrate <a href="http://www.shrubbery.net/rancid/">RANCID</a> into <a href="http://zenoss.org">Zenoss</a> Monitoring</h2>
-          <h2>Latest release: v1.0.0</h2>
+          <h1>Zenpacks.twonms.rancid</h1>
+          <h2>Zenoss ZenPack to integrate Rancid</h2>
         </header>
 
         <section id="downloads" class="clearfix">
@@ -34,37 +31,179 @@
         <hr>
 
         <section id="main_content">
-          <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+          <ul>
+<li>  <a href="#overview">Overview</a>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<ul>
+<li>  <a href="#shortdescription">ZenPack Description</a>
+</li>
+<li>  <a href="#shorthow">How does it work</a>
+</li>
+<li>  <a href="#screenshots">Screenshots</a>
+</li>
+</ul>
+</li>
+<li>  <a href="#installation">Installation</a>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+<ul>
+<li>  <a href="#prereqs">Pre-Requisites</a>
+</li>
+<li>  <a href="#install">Install</a>
+</li>
+<li>  <a href="#upgrade">Upgrade</a>
+</li>
+<li>  <a href="#uninstall">Uninstall</a>
+</li>
+</ul>
+</li>
+<li>  <a href="#monitoring">Monitor Devices</a>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<ul>
+<li>  <a href="#firstuse">First Use</a>
+</li>
+<li>  <a href="zenrancidd">zenrancid daemon</a>
+</li>
+<li>  <a href="#modeler">rancid modeler</a>
+</li>
+<li>  <a href="#zproperties">zProperties</a>
+</li>
+</ul>
+</li>
+<li>  <a href="#configuration">Configuration</a>
+
+<ul>
+<li>  <a href="#configzenrancid">zenrancid daemon config</a>
+</li>
+<li>  <a href="#configrancid">rancid.conf</a>
+</li>
+<li>  <a href="#configcloginrc">cloginrc</a>
+</li>
+<li>  <a href="#configrouterdb">router.db</a>
+</li>
+</ul>
+</li>
+<li>  <a href="#caveats">Caveats</a>
+</li>
+<li>  <a href="#todo">TODO</a>
+</li>
+<li>  <a href="#contact">Contact &amp; Links</a>
+</li>
+</ul><h2>
+<a name="overview" class="anchor" href="#overview"><span class="octicon octicon-link"></span></a>Overview</h2>
 
 <h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<a name="zenpack-description" class="anchor" href="#zenpack-description"><span class="octicon octicon-link"></span></a>ZenPack Description</h3>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p>The community zenpack integrates RANCID into Zenoss. All configuration is managed inside the Zenoss interface and configs.
+New device configs are being displayed as device components and can be viewed in the component details window.
+RANCID uses SVN (Subversion) in the background to keep track of config changes.</p>
 
 <h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<a name="how-does-it-work" class="anchor" href="#how-does-it-work"><span class="octicon octicon-link"></span></a>How does it work</h3>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<p>A new "zenrancid" daemon is created which runs RANCID once a day, by default at 02:00 am.
+The Rancid modeler checks the SVN database for config changes and displays each config version as a device component.</p>
 
 <h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<a name="screenshots" class="anchor" href="#screenshots"><span class="octicon octicon-link"></span></a>Screenshots</h3>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<p>Check the screenshots inside the project.</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>This is a regular ZenPack so the standard installation will work if the pre-requisites are met. 
+RANCID is being compiled (make &amp; gcc) automatically during the installation so the ZenPack only works on Unix. 
+Currently it has only been tested on CentOS.</p>
+
+<h3>
+<a name="pre-requisites" class="anchor" href="#pre-requisites"><span class="octicon octicon-link"></span></a>Pre-Requisites</h3>
+
+<p>The following unix packages have to be installed and available in the $PATH for the zenoss user:</p>
+
+<ul>
+<li>expect</li>
+<li>tar</li>
+<li>gzip</li>
+<li>make</li>
+<li>gcc</li>
+<li>subversion (CVS is currently not supported)</li>
+</ul><h3>
+<a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>Install</h3>
+
+<p>It is recommended to install this package from commandline so that you can see if there were any pre-requisites missing and if the compilation of RANCID was succesful.</p>
+
+<p>zenpack --link --install=/ZenPacks.TwoNMS.Rancid</p>
+
+<p>If there were no errors and the folder $ZENHOME/rancid exists then the installation went ok.</p>
+
+<p>Make sure to restart zopectl and zenhub. If there are any issues while running RANCID the first time then restart zenoss completely.</p>
+
+<p>Make sure that the new daemon "zenrancid" is started: zenrancid status</p>
+
+<p>Please note that re-installing the zenpack will remove all files in the $ZENHOME/rancid folder !</p>
+
+<h3>
+<a name="upgrade" class="anchor" href="#upgrade"><span class="octicon octicon-link"></span></a>Upgrade</h3>
+
+<p>Upgrading the ZenPack is currently not specifically supported. If upgrading will not work then the old version has to be removed before installing the new version.
+It is possible that upgrading will remove all old config files.</p>
+
+<h3>
+<a name="uninstall" class="anchor" href="#uninstall"><span class="octicon octicon-link"></span></a>Uninstall</h3>
+
+<p>Uninstalling the ZenPack can be done using the Zenoss web interface or via commandline:</p>
+
+<p>zenpack --remove=ZenPacks.TwoNMS.Rancid</p>
+
+<p>Please note that removing the zenpack will delete all files and folders in $ZENHOME/rancid !</p>
+
+<h2>
+<a name="monitor-devices" class="anchor" href="#monitor-devices"><span class="octicon octicon-link"></span></a>Monitor Devices</h2>
+
+<p>Devices can be added to the RANCID monitoring using the zenoss interface. There is no need to manually populate the RANCID "router.db" files.</p>
+
+<h3>
+<a name="first-use" class="anchor" href="#first-use"><span class="octicon octicon-link"></span></a>First Use</h3>
+
+<p>By default no devices will be added to the RANCID monitoring. In order to add a device you have to make sure the zRancid configuration properties are configured.
+Enabling the zRancidIgnore property will add the device to the RANCID router.db file and the next time RANCID runs the device will be included.
+If you want to see the different configurations then the Rancid modeler has to be added for the device as well.</p>
+
+<p>It may take 2 runs of zenrancid before the configuration of the device will show up as a component. The first run just checks in the device into the Subversion repository and as of the second run the configuration will be stored.</p>
+
+<h3>
+<a name="zenrancid-daemon" class="anchor" href="#zenrancid-daemon"><span class="octicon octicon-link"></span></a>zenrancid daemon</h3>
+
+<h3>
+<a name="rancid-modeler" class="anchor" href="#rancid-modeler"><span class="octicon octicon-link"></span></a>rancid modeler</h3>
+
+<h3>
+<a name="zproperties" class="anchor" href="#zproperties"><span class="octicon octicon-link"></span></a>zProperties</h3>
+
+<h2>
+<a name="configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a>Configuration</h2>
+
+<h3>
+<a name="zenrancid-daemon-config" class="anchor" href="#zenrancid-daemon-config"><span class="octicon octicon-link"></span></a>zenrancid daemon config</h3>
+
+<h3>
+<a name="rancidconf" class="anchor" href="#rancidconf"><span class="octicon octicon-link"></span></a>rancid.conf</h3>
+
+<h3>
+<a name="cloginrc" class="anchor" href="#cloginrc"><span class="octicon octicon-link"></span></a>cloginrc</h3>
+
+<h3>
+<a name="routerdb" class="anchor" href="#routerdb"><span class="octicon octicon-link"></span></a>router.db</h3>
+
+<h2>
+<a name="caveats" class="anchor" href="#caveats"><span class="octicon octicon-link"></span></a>Caveats</h2>
+
+<h2>
+<a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>TODO</h2>
+
+<h2>
+<a name="contact--links" class="anchor" href="#contact--links"><span class="octicon octicon-link"></span></a>Contact &amp; Links</h2>
         </section>
 
         <footer>
