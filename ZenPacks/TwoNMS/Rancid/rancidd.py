@@ -142,7 +142,8 @@ class rancidd(CyclingDaemon):
                   'password': dev.getProperty("zRancidPassword"), 
                   'enablePassword': dev.getProperty("zRancidEnablePassword"), 
                   'group': dev.getProperty("zRancidGroup"), 
-                  'deviceType': dev.getProperty("zRancidDeviceType")
+                  'deviceType': dev.getProperty("zRancidDeviceType"),
+                  'useSSH': dev.getProperty("zRancidSSH")
                   }
             self._rancid.append(d)
             if dev.getProperty("zRancidGroup") is not None:
@@ -169,6 +170,8 @@ class rancidd(CyclingDaemon):
                 if dev['enablePassword']:
                     out.write(" " + dev['enablePassword'])
                 out.write("\n")
+            if dev['useSSH']:
+                out.write("add method %s ssh telnet\n" % (dev_lc))
             out.write("\n")
           
         ## generate global defaults

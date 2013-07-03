@@ -71,6 +71,7 @@ class RancidMap(PythonPlugin):
                 om.id = self.prepId(logId)
                 om.rRevisionId = om.id
                 om.rRevisionDate = str(logDate)
+                om.rRancidViewerLink = ""
                 ## substitute %id% %group% %device% %type%
                 if device.zRancidViewerPath:
                     om.rRancidViewerLink = device.zRancidViewerPath
