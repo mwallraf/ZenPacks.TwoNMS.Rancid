@@ -139,8 +139,8 @@ class rancidd(CyclingDaemon):
             if dev.getProperty("zRancidIgnore", False): continue
             d = { 'id': dev.id, 
                   'user': dev.getProperty("zRancidUser"), 
-                  'password': dev.getProperty("zRancidPassword"), 
-                  'enablePassword': dev.getProperty("zRancidEnablePassword"), 
+                  'password': self.generate_password(dev.getProperty("zRancidPassword")), 
+                  'enablePassword': self.generate_password(dev.getProperty("zRancidEnablePassword")), 
                   'group': dev.getProperty("zRancidGroup"), 
                   'deviceType': dev.getProperty("zRancidDeviceType"),
                   'useSSH': dev.getProperty("zRancidSSH")
@@ -152,6 +152,13 @@ class rancidd(CyclingDaemon):
         self._list_of_groups = list(set(self._list_of_groups))
         log.debug("_rancid list = %s", self._rancid)
         log.debug("_list_of_groups list = %s", self._list_of_groups)
+
+
+
+    def generate_password(self, password):
+        pwd = re.sub('\$', '\\$', password)
+        return pwd
+
 
 
     def generate_cloginrc(self):
