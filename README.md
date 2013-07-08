@@ -116,6 +116,8 @@ It may take 2 runs of zenrancid before the configuration of the device will show
 
 <h2 id="caveats">Caveats</h2>
 
+* Special characters in passwords may need to be escaped (ex. *, ^, ..)
+
 <h2 id="todo">TODO</h2>
 
 <h2 id="contact">Contact & Links</h2>
