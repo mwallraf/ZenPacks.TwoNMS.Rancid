@@ -1,68 +1,49 @@
-*   [Overview](#overview)
-    *   [ZenPack Description](#shortdescription)
-    *   [How does it work](#shorthow)
-    *   [Screenshots](#screenshots)
-*   [Installation](#installation)
-    *   [Pre-Requisites](#prereqs)
-    *   [Install](#install)
-    *   [Upgrade](#upgrade)
-    *   [Uninstall](#uninstall)
-*   [Add Devices to Rancid](#monitoring)
-    *   [First Use](#firstuse)
-    *   [zenrancid daemon](zenrancidd)
-    *   [rancid modeler](#modeler)
-    *   [zProperties](#zproperties)
-*   [Configuration](#configuration)
-    *   [zenrancid daemon config](#configzenrancid)
-    *   [rancid.conf](#configrancid)
-    *   [cloginrc](#configcloginrc)
-    *   [router.db](#configrouterdb)
-*   [Caveats](#caveats)
-*   [TODO](#todo)
-*   [Contact & Links](#contact)
 
+**Current version = 1.0.0**
 
-<h2 id="overview">Overview</h2>
+# Overview
 
-<h3 id="shortdescription">ZenPack Description</h3>
+## ZenPack Description
 
-This community zenpack integrates RANCID into Zenoss. All configuration is managed inside the Zenoss interface.
+This community zenpack fully integrates RANCID into Zenoss. No manual coniguration is required.
+
 The device configurations are being displayed as device components and can be viewed in the component details window.
-RANCID uses SVN (Subversion) in the background to keep track of config changes.
+The Rancid ZenPack uses SVN (Subversion) in the background to keep track of config changes.
 
-<h3 id="shorthow">How does it work</h3>
+## How does it work
 
 The new "zenrancid" daemon takes care of running RANCID once a day in the background, by default at 02:00 am.
-
 The Rancid modeler checks the SVN database for config changes and displays each config version as a device component.
 
-<h3 id="screenshots">Screenshots</h3>
+## Screenshots
 
 Check the screenshots inside the project.
 
 
-<h2 id="installation">Installation</h2>
+# Installation
 
-This is a regular ZenPack so the standard installation will IF all the pre-requisites are installed. 
-RANCID is being compiled (make & gcc) automatically during the installation so the ZenPack only works on Unix. 
+> **Check the pre-requisites before starting the installation**
+> **Install the ZenPack from command line to make sure everything went ok**
+
+During the installation the RANCID binaries are being compiled from source (make & gcc) so the ZenPack only works on Unix. 
 Currently the ZenPack has only been tested on CentOS but it should work on all unix flavors capable of compiling Rancid.
 
-<h3 id="prereqs">Pre-Requisites</h3>
+## Pre-Requisites
 
 The following packages have to be installed prior to installing the ZenPack and they have to be in the PATH of the zenoss user:
 
-   * expect
-   * tar
-   * gzip
-   * make
-   * gcc
-   * subversion (CVS is currently not supported)
+* expect
+* tar
+* gzip
+* make
+* gcc
+* subversion (CVS is currently not supported)
 
-<h3 id="install">Installing ZenPack</h3>
+## Installing the ZenPack
 
 It is recommended to install this package from commandline so that you can see if there were any pre-requisites missing and if the compilation of RANCID was succesful.
 
-   zenpack --link --install=<installdir>/ZenPacks.TwoNMS.Rancid
+      zenpack --link --install=<installdir>/ZenPacks.TwoNMS.Rancid
 
 If there were no errors and the folder $ZENHOME/rancid exists then the installation went ok.
 
@@ -70,30 +51,30 @@ Make sure to restart zopectl and zenhub. If there are any issues while running R
 
 Make sure that the new daemon "zenrancid" is started: 
 
-   zenrancid status
+      zenrancid status
 
 **NOTE:** *re-installing the zenpack will remove all files in the $ZENHOME/rancid folder !*
 
-<h3 id="upgrade">Upgrade</h3>
+## Upgradig the ZenPack
 
 Upgrading the ZenPack is currently not specifically supported. If upgrading will not work then the old version has to be removed before installing the new version.
 It is possible that upgrading will remove all old config files.
 
-<h3 id="uninstall">Uninstall</h3>
+## Uninstalling the ZenPack
 
 Uninstalling the ZenPack can be done using the Zenoss web interface or via commandline:
 
-   zenpack --remove=ZenPacks.TwoNMS.Rancid
+      zenpack --remove=ZenPacks.TwoNMS.Rancid
 
 **NOTE:** *re-installing the zenpack will remove all files in the $ZENHOME/rancid folder !*
 
 
-<h2 id="monitoring">Add Devices to Rancid</h2>
+# Adding Devices to Rancid
 
 Devices can be added to RANCID using the zenoss interface by changing the zRancid properties. 
 There is no need to manually populate the RANCID "router.db" files.
 
-<h3 id="firstuse">First Use</h3>
+## First Use
 
 By default no devices will be added to the RANCID monitoring. 
 
@@ -104,12 +85,13 @@ After a device has been enabled for Rancid via the zRancid properties the zenran
 You can run this manually or if the daemon is started you can wait until it's started automatically, by default once a day.
 The modeler takes care of displaying the configs into zenoss, each config version is a device component called *Rancid Revision*.
 
-**NOTE:** It may take 2 runs of zenrancid before the configuration of the device will show up as a component. 
-The first run just checks in the device into the Subversion repository and as of the second run any configuration changes will be stored.
+**NOTE:** *It may take 2 runs of zenrancid before the configuration of the device will show up as a component.* 
+*The first run just checks in the device into the Subversion repository and as of the second run any configuration changes will be stored.*
 
-**NOTE:** The zenrancid daemon only runs once a day by default so if zenmodeler was started before zenrancid then any changes will be visible in Zenoss only after the next time zenmodeler is started.
+*The zenrancid daemon only runs once a day by default so if zenmodeler was started before zenrancid then any changes will be visible in Zenoss only after the next time zenmodeler is started.*
 
-<h3 id="zenrancidd">zenrancid daemon</h3>
+
+## zenrancid daemon
 
 The is the daemon that takes care of running RANCID so it calls "rancid-run" in the background.
 It is possible to disable the daemon but then you have to schedule rancid-run manually as a cron job.
@@ -119,54 +101,81 @@ By default zenrancid will start at 02:00am every day but this can be changed in 
 
 It is possible to run zenrancid via command-line for all devices or for a single device:
 
-   zenrancid run --device=<my device>
+      zenrancid run --device=MYDEVICE
+      
+(MYDEVICE should exist in Zenoss)
 
-<h3 id="modeler">Rancid modeler</h3>
+
+## Rancid modeler
 
 The modeler will check if new config versions or SVN revisions are available. 
 Each revision will be visible as a device os component called "Rancid Revision"
 
-<h3 id="zproperties">zProperties</h3>
+To run the modeler for a single device, this could be useful after running zenrancid for a single device:
 
-A few zRancid properties are created when the ZenPack is installed.
-zRancid properties are used to define if a device will be added to Rancid, what Rancid device type it should be, what group is created and the username + password.
+      zenmodeler run --device=MYDEVICE
 
-* zRancidGroup =
-* zRancidType =
-* zRancidUser =
-* zRancidPassword =
-* zRancidEnablePassword =
-* zRancidViewer =
-* zRancidSSH =
+(MYDEVICE should exist in Zenoss)
 
-<h2 id="configuration">Configuration</h2>
 
-Although this ZenPack runs "out of the box" and all configuration files are being overwritten each time zenrancid is started, it is possible to define your own custom Rancid settings.
-All these configurations files are available in $ZENHOME/rancid/etc
+## Rancid zProperties
 
-<h3 id="configzenrancid">zenrancid daemon config</h3>
+A few new zProperties are created when the ZenPack is installed.
+zRancid properties are used to indicate if a device will be added to Rancid, what Rancid device type it should be, what group is created and the username + password.
+
+> * zRancidIgnore = Indicates if the device should be included in Rancid or not
+> * zRancidGroup = The Rancid group that the device belongs to, each group means a different directory in Rancid
+> * zRancidDeviceType = The Rancid device type (ex. cisco, f5, netscreen)
+> * zRancidUser = The default username used to login to a device
+> * zRancidPassword = The default password for the username
+> * zRancidEnablePassword = The enable password if needed
+> * zRancidViewerPath = if you have ane external SVN viewer installed (ex. ViewVC) then you can put a link to the URL here, this link will be used in the Rancid Revision device components. This path accepts the parameters: %device% %group% %id% %type%
+> * zRancidSSH = Indicates that SSH should be used as login method, otherwise telnet will be used
+
+# Configuration files
+
+This ZenPack runs "out of the box" so no configuration changes have to be made.
+However it is possible to change to the default Rancid configuration files which are stored in $ZENHOME/rancid/etc
+
+## zenrancid daemon config
 
 This is the default zenrancid daemon config file and is available in $ZENHOME/etc/zenrancid.conf
 Usually you won't have to make any changes here except if you want to update the time and frequency when zenrancid should start.
-It's a typical zenoss config, the most important rancid parameters are:
 
-* rancid_starttime =
-* rancid_cycletime =
+> * starttime 02:00 = the time when the zenrancid daemon should start the first time, by default 02:00am
+> * cycletime 86400 = the frequency when the zenrancid daemon starts, by default every 24 hours
 
-<h3 id="configrancid">rancid.conf</h3>
+## rancid.conf
 
-This is the default configuration file used by Rancid. This file is auto-generated and over-written each time zenrancid runs!
-If you want to make customized changes then create a new file called $ZENHOME/rancid/etc/rancid-custom.conf
+This is the default configuration file used by Rancid and can be found in $ZENHOME/rancid/etc.
+This file is auto-generated and over-written each time zenrancid runs.
+You can override the generated file by creating a new file called $ZENHOME/rancid/etc/rancid-custom.conf
 All settings in this custom file will override the standard settings.
 
-<h3 id="configcloginrc">cloginrc</h3>
+## .cloginrc
 
-<h3 id="configrouterdb">router.db</h3>
+This is the default device authentication file used by Rancid and can be found in the zenoss user home folder.
+This file is auto-generated and over-written each time zenrancid runs.
+You can override the generated file by creating a new file called $ZENHOME/rancid/etc/cloginrc-custom
+All settings in this custom file will override the standard settings.
 
-<h2 id="caveats">Caveats</h2>
+## router.db
 
-* Special characters in passwords may need to be escaped (ex. *, ^, ..)
+The router.db files contain a list of all the devices that should be included in Rancid. Each device group has its own router.db file.
+These files are generated automatically from Zenoss by disabling the "zRancidIgnore" property and configuring the "zRancidGroup" property. This is done each time the zenrancid daemon runs.
 
-<h2 id="todo">TODO</h2>
+If you want to include devices to Rancid which are not managed in Zenoss then you need to create your own router.db files using the same folder structure as Rancid uses.
+This has to be done in the folder $ZENHOME/rancid/etc/customdb/
 
-<h2 id="contact">Contact & Links</h2>
+For example if you have a folder structure $ZENHOME/rancid/var/Switches/router.db then you'll need to create the following file : $ZENHOME/rancid/etc/customdb/Switches/router.db
+
+
+# Caveats
+
+   - Special characters in passwords may need to be escaped (ex. *, ^, ..)
+   - the first time it may take two runs of "zenrancid" before you will start seeing configs, the first time only the SVN folder structure is built
+   - you have to wait for the next run of "zenmodeler" before config revisions will be visible as component
+
+# TODO
+
+# Contact & Links
