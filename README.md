@@ -1,5 +1,4 @@
-
-**Current version = 1.0.0**
+*[current version = 1.0.0]*
 
 # Overview
 
