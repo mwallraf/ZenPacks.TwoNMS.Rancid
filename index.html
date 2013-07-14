@@ -39,21 +39,21 @@
 <h2>
 <a name="zenpack-description" class="anchor" href="#zenpack-description"><span class="octicon octicon-link"></span></a>ZenPack Description</h2>
 
-<p>This community zenpack fully integrates RANCID into Zenoss. No manual coniguration is required.</p>
+<p>This community zenpack fully integrates <a href="http://www.shrubbery.net/rancid/">RANCID</a> into Zenoss without any manual coniguration required.</p>
 
-<p>The device configurations are being displayed as device components and can be viewed in the component details window.
-The Rancid ZenPack uses SVN (Subversion) in the background to keep track of config changes.</p>
+<p>Backup all your routers, switches, load balancers, etc. right from the Zenoss interface.</p>
 
 <h2>
 <a name="how-does-it-work" class="anchor" href="#how-does-it-work"><span class="octicon octicon-link"></span></a>How does it work</h2>
 
-<p>The new "zenrancid" daemon takes care of running RANCID once a day in the background, by default at 02:00 am.
-The Rancid modeler checks the SVN database for config changes and displays each config version as a device component.</p>
+<p>The new "zenrancid" daemon takes care of running RANCID once a day in the background, by default at 02:00 am.</p>
+
+<p>The Rancid modeler checks the SVN database for config changes and displays each config version as a device component.</p>
 
 <h2>
 <a name="screenshots" class="anchor" href="#screenshots"><span class="octicon octicon-link"></span></a>Screenshots</h2>
 
-<p>Check the screenshots inside the project.</p>
+<p>Check the <a href="https://github.com/mwallraf/ZenPacks.TwoNMS.Rancid/tree/master/screenshots">screenshots here</a>.</p>
 
 <h1>
 <a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h1>
@@ -69,9 +69,10 @@ Currently the ZenPack has only been tested on CentOS but it should work on all u
 <h2>
 <a name="pre-requisites" class="anchor" href="#pre-requisites"><span class="octicon octicon-link"></span></a>Pre-Requisites</h2>
 
-<p>The following packages have to be installed prior to installing the ZenPack and they have to be in the PATH of the zenoss user:</p>
+<p>Make sure your system meets these requirements:</p>
 
 <ul>
+<li>Unix only</li>
 <li>expect</li>
 <li>tar</li>
 <li>gzip</li>
@@ -83,12 +84,11 @@ Currently the ZenPack has only been tested on CentOS but it should work on all u
 
 <p>It is recommended to install this package from commandline so that you can see if there were any pre-requisites missing and if the compilation of RANCID was succesful.</p>
 
-<pre><code>  zenpack --link --install=&lt;installdir&gt;/ZenPacks.TwoNMS.Rancid
+<pre><code>  zenpack --link --install=/&lt;path to files&gt;/ZenPacks.TwoNMS.Rancid
+  zenoss restart
 </code></pre>
 
 <p>If there were no errors and the folder $ZENHOME/rancid exists then the installation went ok.</p>
-
-<p>Make sure to restart zopectl and zenhub. If there are any issues while running RANCID the first time then restart zenoss completely.</p>
 
 <p>Make sure that the new daemon "zenrancid" is started: </p>
 
@@ -111,7 +111,9 @@ It is possible that upgrading will remove all old config files.</p>
 <pre><code>  zenpack --remove=ZenPacks.TwoNMS.Rancid
 </code></pre>
 
+<blockquote>
 <p><strong>NOTE:</strong> <em>re-installing the zenpack will remove all files in the $ZENHOME/rancid folder !</em></p>
+</blockquote>
 
 <h1>
 <a name="adding-devices-to-rancid" class="anchor" href="#adding-devices-to-rancid"><span class="octicon octicon-link"></span></a>Adding Devices to Rancid</h1>
@@ -124,17 +126,18 @@ There is no need to manually populate the RANCID "router.db" files.</p>
 
 <p>By default no devices will be added to the RANCID monitoring. </p>
 
-<p>In order to add a device you have to make sure the zRancid properties are set
+<p>In order to add a device you have to make sure the zRancid properties are set correctly.
 Disabling the zRancidIgnore property will include the device to the RANCID router.db file and the next time RANCID runs the device will be included.</p>
 
 <p>After a device has been enabled for Rancid via the zRancid properties the zenrancid daemon has to run.
 You can run this manually or if the daemon is started you can wait until it's started automatically, by default once a day.
 The modeler takes care of displaying the configs into zenoss, each config version is a device component called <em>Rancid Revision</em>.</p>
 
-<p><strong>NOTE:</strong> <em>It may take 2 runs of zenrancid before the configuration of the device will show up as a component.</em> 
-<em>The first run just checks in the device into the Subversion repository and as of the second run any configuration changes will be stored.</em></p>
-
-<p><em>The zenrancid daemon only runs once a day by default so if zenmodeler was started before zenrancid then any changes will be visible in Zenoss only after the next time zenmodeler is started.</em></p>
+<blockquote>
+<p><em>It may take 2 runs of zenrancid before the configuration of the device will show up as a component.</em> 
+<em>The first run just checks in the device into the Subversion repository and as of the second run any configuration changes will be stored.</em>
+<em>The zenrancid daemon only runs once a day by default so if zenmodeler was started before zenrancid then any changes will be visible in Zenoss only after the next time zenmodeler is started.</em></p>
+</blockquote>
 
 <h2>
 <a name="zenrancid-daemon" class="anchor" href="#zenrancid-daemon"><span class="octicon octicon-link"></span></a>zenrancid daemon</h2>
@@ -171,7 +174,6 @@ Each revision will be visible as a device os component called "Rancid Revision"<
 <p>A few new zProperties are created when the ZenPack is installed.
 zRancid properties are used to indicate if a device will be added to Rancid, what Rancid device type it should be, what group is created and the username + password.</p>
 
-<blockquote>
 <ul>
 <li>zRancidIgnore = Indicates if the device should be included in Rancid or not</li>
 <li>zRancidGroup = The Rancid group that the device belongs to, each group means a different directory in Rancid</li>
@@ -181,10 +183,7 @@ zRancid properties are used to indicate if a device will be added to Rancid, wha
 <li>zRancidEnablePassword = The enable password if needed</li>
 <li>zRancidViewerPath = if you have ane external SVN viewer installed (ex. ViewVC) then you can put a link to the URL here, this link will be used in the Rancid Revision device components. This path accepts the parameters: %device% %group% %id% %type%</li>
 <li>zRancidSSH = Indicates that SSH should be used as login method, otherwise telnet will be used</li>
-</ul>
-</blockquote>
-
-<h1>
+</ul><h1>
 <a name="configuration-files" class="anchor" href="#configuration-files"><span class="octicon octicon-link"></span></a>Configuration files</h1>
 
 <p>This ZenPack runs "out of the box" so no configuration changes have to be made.
@@ -196,14 +195,10 @@ However it is possible to change to the default Rancid configuration files which
 <p>This is the default zenrancid daemon config file and is available in $ZENHOME/etc/zenrancid.conf
 Usually you won't have to make any changes here except if you want to update the time and frequency when zenrancid should start.</p>
 
-<blockquote>
 <ul>
 <li>starttime 02:00 = the time when the zenrancid daemon should start the first time, by default 02:00am</li>
 <li>cycletime 86400 = the frequency when the zenrancid daemon starts, by default every 24 hours</li>
-</ul>
-</blockquote>
-
-<h2>
+</ul><h2>
 <a name="rancidconf" class="anchor" href="#rancidconf"><span class="octicon octicon-link"></span></a>rancid.conf</h2>
 
 <p>This is the default configuration file used by Rancid and can be found in $ZENHOME/rancid/etc.
@@ -237,11 +232,29 @@ This has to be done in the folder $ZENHOME/rancid/etc/customdb/</p>
 <li>Special characters in passwords may need to be escaped (ex. *, ^, ..)</li>
 <li>the first time it may take two runs of "zenrancid" before you will start seeing configs, the first time only the SVN folder structure is built</li>
 <li>you have to wait for the next run of "zenmodeler" before config revisions will be visible as component</li>
+<li>In case the installation fails because of missing requirements for example it may be impossible to re-install or remove the Zenpack because of an issue with the zProperties. The workaround is to comment all zProperties in the <strong><strong>init</strong>.py</strong> file, remove the zenpack, uncomment the zProperties and try again.</li>
 </ul><h1>
 <a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>TODO</h1>
 
+<p>So many things to add, so little time :)</p>
+
+<p>Check the <a href="https://github.com/mwallraf/ZenPacks.TwoNMS.Rancid/blob/master/README.txt">readme.txt</a> file for the TODO list for the next release.</p>
+
 <h1>
 <a name="contact--links" class="anchor" href="#contact--links"><span class="octicon octicon-link"></span></a>Contact &amp; Links</h1>
+
+<ul>
+<li>Report issues <a href="https://github.com/mwallraf/ZenPacks.TwoNMS.Rancid/issues">here</a>
+</li>
+<li>Link to <a href="http://www.zenoss.org/">Zenoss</a>
+</li>
+<li>Link to <a href="http://wiki.zenoss.org/Category:ZenPacks">Zenoss ZenPacks</a>
+</li>
+<li>Link to <a href="http://www.shrubbery.net/rancid/">Rancid</a>
+</li>
+<li>Link to <a href="http://www.viewvc.org/">ViewVC</a>
+</li>
+</ul><p>For Professional services contact us at <a href="http://2nms.github.io">TwoNMS.com</a></p>
       </section>
     </div>
 
@@ -253,7 +266,17 @@ This has to be done in the folder $ZENHOME/rancid/etc/customdb/</p>
       </footer>
     </div>
 
-    
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-42456553-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
 
   </body>
 </html>
