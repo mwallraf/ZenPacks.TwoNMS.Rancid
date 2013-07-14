@@ -71,7 +71,7 @@ class ZenPack(ZenPackBase):
         super(ZenPack,self).__init__(*args)
         self.RANCID = rancidd(False)
         self.RANCID_VERSION = self.RANCID.getRancidVersion()
-        self.rancid_tar = os.path.join(self.zenpack_path, "rancid-" + self.RANCID_VERSION + ".tar.gz")
+        self.rancid_tar = os.path.join(self.zenpack_path, 'resources', "rancid-" + self.RANCID_VERSION + ".tar.gz")
 
 
 
