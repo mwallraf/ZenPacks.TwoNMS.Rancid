@@ -186,6 +186,7 @@ For example if you have a folder structure $ZENHOME/rancid/var/Switches/router.d
    - the first time it may take two runs of "zenrancid" before you will start seeing configs, the first time only the SVN folder structure is built
    - you have to wait for the next run of "zenmodeler" before config revisions will be visible as component
    - In case the installation fails because of missing requirements for example it may be impossible to re-install or remove the Zenpack because of an issue with the zProperties. The workaround is to comment all zProperties in the **__init__.py** file, remove the zenpack, uncomment the zProperties and try again.
+   - - at this moment customized router.db files can only be used for groups which already exist in Zenoss, so at least 1 device in zenoss must be enabled in the rancid group. Should be fixed
 
 
 # TODO
