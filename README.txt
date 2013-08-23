@@ -8,3 +8,4 @@
 - add some reports: devices under SVN control, devices missed, ...
 - add some commands or Rancid menu for: starting Rancid for a single device,
   for more devices, getting config on demand, change diff
+- at this moment customized router.db files can only be used for groups which already exist in Zenoss, so at least 1 device in zenoss must be enabled in the rancid group. Should be fixed
