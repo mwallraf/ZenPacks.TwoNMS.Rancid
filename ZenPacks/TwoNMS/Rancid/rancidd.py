@@ -218,6 +218,7 @@ class rancidd(CyclingDaemon):
                 db_files[routerDbFile].append(":".join((dev['id'], dev['deviceType'], "up")))
 
         for file in db_files:
+            # hack to force lower case
             out = open(file, 'w')
             for router in db_files[file]:
                 out.write(str(router).lower() + "\n")
@@ -226,7 +227,9 @@ class rancidd(CyclingDaemon):
             customDbFile = re.sub(zenPath('rancid', 'var'), zenPath('rancid', 'etc', 'customdb'), file)
             if os.path.exists(customDbFile):
                 with open(customDbFile) as f:
-                    out.write(str(f.readline()))
+                    for line in f.readlines():
+                        out.write(str(line))
+
 
             out.close()
 
