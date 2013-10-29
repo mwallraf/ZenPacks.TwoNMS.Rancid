@@ -50,6 +50,11 @@
 
 <p>The Rancid modeler checks the SVN database for config changes and displays each config version as a device component.</p>
 
+<blockquote>
+<p><strong>The zenoss device ID is used in the Rancid config files. so make sure that it can resolve to a valid IP address.</strong>
+<strong>Possibly you need to add the hosts to the local /etc/hosts file. Examples can be found in the Zenoss community to automate this.</strong></p>
+</blockquote>
+
 <h2>
 <a name="screenshots" class="anchor" href="#screenshots"><span class="octicon octicon-link"></span></a>Screenshots</h2>
 
@@ -69,7 +74,7 @@ Currently the ZenPack has only been tested on CentOS but it should work on all u
 <h2>
 <a name="pre-requisites" class="anchor" href="#pre-requisites"><span class="octicon octicon-link"></span></a>Pre-Requisites</h2>
 
-<p>Make sure your system meets these requirements:</p>
+<p>Make sure your system meets these requirements, you might also check the requirements for Rancid on their <a href="http://www.shrubbery.net/rancid/">website</a>:</p>
 
 <ul>
 <li>Unix only</li>
@@ -79,6 +84,8 @@ Currently the ZenPack has only been tested on CentOS but it should work on all u
 <li>make</li>
 <li>gcc</li>
 <li>subversion (CVS is currently not supported)</li>
+<li>telnet (for Rancid)</li>
+<li>sendmail (for Rancid)</li>
 </ul><h2>
 <a name="installing-the-zenpack" class="anchor" href="#installing-the-zenpack"><span class="octicon octicon-link"></span></a>Installing the ZenPack</h2>
 
@@ -120,6 +127,12 @@ It is possible that upgrading will remove all old config files.</p>
 
 <p>Devices can be added to RANCID using the zenoss interface by changing the zRancid properties. 
 There is no need to manually populate the RANCID "router.db" files.</p>
+
+<h1>
+<a name="add-the-zenrancid-modeler-to-the-devices" class="anchor" href="#add-the-zenrancid-modeler-to-the-devices"><span class="octicon octicon-link"></span></a>Add the zenrancid modeler to the devices</h1>
+
+<p>Don't forget to add the zenrancid modeler to the devices that you want to include in Rancid! The modeler takes care of integrating the configs in the Zenoss GUI. Withouth the modeler Rancid will take the backups but you will not see the results inside Zenoss.
+The modeler to add is community.twonms.python.RancidMap</p>
 
 <h2>
 <a name="first-use" class="anchor" href="#first-use"><span class="octicon octicon-link"></span></a>First Use</h2>
@@ -229,10 +242,19 @@ This has to be done in the folder $ZENHOME/rancid/etc/customdb/</p>
 <a name="caveats" class="anchor" href="#caveats"><span class="octicon octicon-link"></span></a>Caveats</h1>
 
 <ul>
-<li>Special characters in passwords may need to be escaped (ex. *, ^, ..)</li>
+<li>Special characters in passwords may need to be escaped (ex. *, ^, ..)
+
+<ul>
 <li>the first time it may take two runs of "zenrancid" before you will start seeing configs, the first time only the SVN folder structure is built</li>
-<li>you have to wait for the next run of "zenmodeler" before config revisions will be visible as component</li>
+</ul>
+</li>
+<li>you have to wait for the next run of "zenmodeler" before config revisions will be visible as component
+
+<ul>
 <li>In case the installation fails because of missing requirements for example it may be impossible to re-install or remove the Zenpack because of an issue with the zProperties. The workaround is to comment all zProperties in the <strong><strong>init</strong>.py</strong> file, remove the zenpack, uncomment the zProperties and try again.</li>
+</ul>
+</li>
+<li>at this moment customized router.db files can only be used for groups which already exist in Zenoss, so at least 1 device in zenoss must be enabled in the rancid group. Should be fixed</li>
 </ul><h1>
 <a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>TODO</h1>
 
