@@ -16,6 +16,8 @@ The new "zenrancid" daemon takes care of running RANCID once a day in the backgr
 
 The Rancid modeler checks the SVN database for config changes and displays each config version as a device component.
 
+> **The zenoss device ID will be used as host in the Rancid config files. If this is the hostname then make sure that they resolve to IP addresses. Rancid will connect to these hostnames to retrieve the configurations.**
+> **If needed then you'll have to manually add the hosts to the /etc/hosts file. There are scripts in the Zenoss community to export devcies to /etc/hosts**
 
 ## Screenshots
 
@@ -33,7 +35,7 @@ Currently the ZenPack has only been tested on CentOS but it should work on all u
 
 ## Pre-Requisites
 
-Make sure your system meets these requirements:
+Make sure your system meets these requirements, you might also check the requirements for Rancid on their [website](http://www.shrubbery.net/rancid/):
 
 * Unix only
 * expect
@@ -42,6 +44,8 @@ Make sure your system meets these requirements:
 * make
 * gcc
 * subversion (CVS is currently not supported)
+* telnet (for Rancid)
+* sendmail (for Rancid)
 
 
 ## Installing the ZenPack
@@ -78,6 +82,11 @@ Uninstalling the ZenPack can be done using the Zenoss web interface or via comma
 
 Devices can be added to RANCID using the zenoss interface by changing the zRancid properties. 
 There is no need to manually populate the RANCID "router.db" files.
+
+# Add the zenrancid modeler to the devices
+
+Don't forget to add the zenrancid modeler to the devices that you want to include in Rancid! The modeler takes care of integrating the configs in the Zenoss GUI. Withouth the modeler Rancid will take the backups but you will not see the results inside Zenoss.
+The modeler to add is community.twonms.python.RancidMap
 
 
 ## First Use
@@ -186,7 +195,7 @@ For example if you have a folder structure $ZENHOME/rancid/var/Switches/router.d
    - the first time it may take two runs of "zenrancid" before you will start seeing configs, the first time only the SVN folder structure is built
    - you have to wait for the next run of "zenmodeler" before config revisions will be visible as component
    - In case the installation fails because of missing requirements for example it may be impossible to re-install or remove the Zenpack because of an issue with the zProperties. The workaround is to comment all zProperties in the **__init__.py** file, remove the zenpack, uncomment the zProperties and try again.
-   - - at this moment customized router.db files can only be used for groups which already exist in Zenoss, so at least 1 device in zenoss must be enabled in the rancid group. Should be fixed
+   - at this moment customized router.db files can only be used for groups which already exist in Zenoss, so at least 1 device in zenoss must be enabled in the rancid group. Should be fixed
 
 
 # TODO
