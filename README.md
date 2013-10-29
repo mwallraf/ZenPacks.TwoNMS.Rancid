@@ -16,8 +16,8 @@ The new "zenrancid" daemon takes care of running RANCID once a day in the backgr
 
 The Rancid modeler checks the SVN database for config changes and displays each config version as a device component.
 
-> **The zenoss device ID will be used as host in the Rancid config files. If this is the hostname then make sure that they resolve to IP addresses. Rancid will connect to these hostnames to retrieve the configurations.**
-> **If needed then you'll have to manually add the hosts to the /etc/hosts file. There are scripts in the Zenoss community to export devcies to /etc/hosts**
+> **The zenoss device ID is used in the Rancid config files. so make sure that it can resolve to a valid IP address.**
+> **Possibly you need to add the hosts to the local /etc/hosts file. Examples can be found in the Zenoss community to automate this.**
 
 ## Screenshots
 
